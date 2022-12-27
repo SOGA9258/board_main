@@ -10,3 +10,10 @@ CREATE TABLE `board` (
 ) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
+-- 멤버 테이블
+CREATE TABLE MEMBER(
+    member_no int not null auto_increment primary key, --회원 번호
+    member_id varchar(30) not null, --회원 아이디
+    password varchar(255) not null, --회원 비밀번호
+    name varchar(30) --회원 이름
+) DEFAULT CHARSET=utf8;
