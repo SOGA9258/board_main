@@ -31,6 +31,9 @@ public class BoardController {
     @GetMapping("/board/write") //localhost:8060/board/write
     public String boardWriteForm() {
 
+
+
+        // 박찬균
         return "boardwrite";
     }
 
