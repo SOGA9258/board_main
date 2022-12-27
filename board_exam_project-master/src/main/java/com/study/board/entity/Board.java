@@ -26,7 +26,5 @@ public class Board  {
     @CreationTimestamp
     private LocalDateTime createdDateTime;
 
-    @Column(columnDefinition = "integer default 0", nullable = false)
-    private int view;
 
 }
