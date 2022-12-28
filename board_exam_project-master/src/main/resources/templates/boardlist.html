@@ -17,6 +17,17 @@
 
 </style>
 
+<style type="text/css">
+ a:link { color: blue; text-decoration: none;}
+
+ a:visited { color: blue; text-decoration: none;}
+
+ a:hover { color: blue; text-decoration: underline;}
+
+ a:active { color: blue; text-decoration: underline;}
+
+</style>
+
 <body>
 
 
@@ -53,7 +64,7 @@
                 작성일
             </div>
         </div>
-        <table>
+        <table class="table table-striped" >
             <tbody>
                 <tr th:each="board : ${list}">
                      <td th:text="${board.id}">1</td>
