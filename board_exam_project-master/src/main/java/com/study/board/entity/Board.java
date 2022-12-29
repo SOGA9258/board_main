@@ -21,7 +21,6 @@ public class Board  {
     private String title;
     @Column
     private String content;
-
     @Column
     @CreationTimestamp
     private LocalDateTime createdDateTime;

@@ -42,7 +42,6 @@ public class BoardController {
 
         boardService.write(board);
 
-
         return "redirect:/board/list";
     }
 
@@ -51,7 +50,7 @@ public class BoardController {
                             @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                             String searchKeyword) {
 
-        Page<Board> list = null;
+        Page<Board> list =boardService.boardList(pageable);
 
         if(searchKeyword == null) {
             list = boardService.boardList(pageable);
@@ -61,7 +60,7 @@ public class BoardController {
 
         int nowPage = list.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        int endPage = Math.min(nowPage + 9, list.getTotalPages());
 
         model.addAttribute("list", list);
         model.addAttribute("nowPage", nowPage);

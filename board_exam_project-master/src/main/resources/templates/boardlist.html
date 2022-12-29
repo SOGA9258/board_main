@@ -16,7 +16,6 @@
     }
 
 </style>
-
 <style type="text/css">
  a:link { color: blue; text-decoration: none;}
 
@@ -27,6 +26,7 @@
  a:active { color: blue; text-decoration: underline;}
 
 </style>
+
 
 <body>
 
@@ -75,7 +75,6 @@
                 </tr>
             </tbody>
         </table>
-
         <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
             <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
             <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
