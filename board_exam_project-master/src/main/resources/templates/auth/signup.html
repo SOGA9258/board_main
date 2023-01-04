@@ -89,58 +89,104 @@
 <body>
 
 <div class="login-wrapper" style="margin-left: auto; margin-right: auto; margin-top: 120px; border: ridge;">
-    <h2>Signup</h2>
+    <h2>SignUp</h2>
     <form method="post" action="" id="signForm">
-        <input type="text"          id="s_memberId"         name="s_memberId"       placeholder="아이디">
-        <input type="password"      id="s_password"         name="s_password"       placeholder="비밀번호">
-        <input type="checkPassword" id="s_checkPassword"    name="s_checkPassword"  placeholder="비밀번호 확인">
-        <input type="text"          id="s_name"             name="s_name"           placeholder="이름">
-        <label >
-            <a onclick="signin();" style="cursor:pointer;"> Signin </a>
-        </label>
-        <input type="button" onclick="signup();" value="Signup">
-    </form>
+        <input type="text"          id="memberId"       name="memberId"     onkeyup="lengthCheck(this, 20);" placeholder="아이디">
+        <input type="password"      id="password"       name="password"     onkeyup="lengthCheck(this, 20); passwordCheck(this);" placeholder="비밀번호">
+        <label id="password_label"      style="color: red; display: none;">비밀번호는 8자 이상 20자 이하 대소문자 포함</label>
+        <input type="password"      id="password2"      name="password2"    onkeyup="lengthCheck(this, 30); password2Check(this);" placeholder="비밀번호 확인">
+        <label id="password2_label" style="color: red; display: none;">비밀번호와 일치하지 않습니다.</label>
+        <input type="text"          id="name"           name="name"         onkeyup="lengthCheck(this, 25); nameCheck(this);" placeholder="이름">
+        <label id="name_label" style="color: red; display: none;">한글만 입력 가능합니다.</label>
 
-    <form method="post" action="/auth/signup" id="registForm" style="display: none">
-        <input type="text"      id="memberId"   name="memberId">
-        <input type="password"  id="password"   name="password">
-        <input type="text"      id="name"       name="name">
+        <label >
+            <a onclick="signIn();" style="cursor:pointer;">로그인</a>
+        </label>
+        <input type="button" onclick="signUp();" value="회원 가입">
     </form>
 </div>
 </body>
 
 <script>
 
-    const signup = () => {
+    const lengthCheck = (v, length) => {
+        if (v.value == '') return;
+        let id = '#'+v.id;
+        if (v.value.length > parseInt(length)) {
+            $(id).val(v.value.substring(0, parseInt(length)));
+            return false;
+        }
+    }
 
-        let s_memberId = $('#s_memberId').val();
-        let s_password = $('#s_password').val();
-        let s_name = $('#s_name').val();
+    const labelDisplay = (v, display) => {
+        let label_id = '#' + v + '_label';
+        $(label_id).css('display', display? 'block' : 'none');
+    }
 
-        alert(s_memberId + s_password + s_name);
+    const passwordCheck = (v) => {
+        if (v.value == '') {
+            labelDisplay(v.id, false);
+            return false;
+        }
+        let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
+        if(!reg.test(v.value)) {
+            labelDisplay(v.id, true);
+            return false;
+        }
+        labelDisplay(v.id, false);
+    }
 
+    const password2Check = (v) => {
+        if (v.value == '') {
+            labelDisplay(v.id, false);
+            return false;
+        }
+        let pw = $('#password').val();
+        if (pw == '') {
+            labelDisplay(v.id, true);
+            return false;
+        }
+        if (pw != v.value) {
+            labelDisplay(v.id, true);
+            return false;
+        }
+        labelDisplay(v.id, false);
+    }
 
-        $('#memberId').val(s_memberId);
-        $('#password').val(s_password);
-        $('#name').val(s_name);
+    const nameCheck = (v) => {
+        if (v.value == '') {
+            labelDisplay(v.id, false);
+            return false;
+        }
+        let reg = /^[ㄱ-ㅎ가-힣]+$/; // 한글만
+        if(!reg.test(v.value)) {
+            labelDisplay(v.id, true);
+            return false;
+        }
+        labelDisplay(v.id, false);
+    }
 
-        $("#registForm").submit();
-        //
-        // let param = {
-        //     memberId, password, name
-        // }
-        // $.post("/auth/signUp", param,              // 서버가 필요한 정보를 같이 보냄.
-        //     function(data) {
-        //         alert(data.message);
-        //         location.href = '/auth/signin';
-        //     }
-        // );
-        //
-        // return false;
+    const signUp = () => {
+
+        let memberId = $('#memberId').val();
+        let password = $('#password').val();
+        let name = $('name').val();
+
+        let param = {
+            memberId, password, name
+        }
+        $.post("/auth/signUp", param,
+            function(data) {
+                alert(data.message);
+                location.href = '/auth/signIn';
+            }
+        );
+
+        return false;
 
     }
-    const signin = () => {
-        location.href = '/auth/signin';
+    const signIn = () => {
+        location.href = '/auth/signIn';
     }
 </script>
 </html>
